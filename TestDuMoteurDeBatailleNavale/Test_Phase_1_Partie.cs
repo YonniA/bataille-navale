@@ -1,3 +1,6 @@
+using BatailleNavale;
+using System.Reflection;
+
 namespace TestDuMoteurDeBatailleNavale
 {
     [TestClass]
