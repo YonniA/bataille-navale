@@ -212,8 +212,6 @@ namespace TestDuMoteurDeBatailleNavale
                     Assert.Fail("Il semble encore y avoir des anomalies dans le déroulement de la partie...");
                 }
             }
-
         }
-
     }
 }
