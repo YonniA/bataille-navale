@@ -106,5 +106,43 @@ namespace TestDuMoteurDeBatailleNavale
             UnNavire navire = new UnNavire("Nom_TEST", 5);
             Assert.AreEqual(navire.Nom, "Nom_TEST", "Le nom du navire doit être initialisé par le constructeur");
         }
+
+        private string[] NomsDesNaviresDeLaFlotte
+        {
+            get
+            {
+                return new string[] { "porte avion", "croiseur", "contre torpilleur","sous-marin", "torpilleur" };
+            }
+        }
+        private byte[] TaillesDesNaviresDeLaFlotte
+        {
+            get
+            { return new byte[] { 5, 4, 3, 3, 2 }; }
+        }
+        [TestMethod]
+        public void Phase_2_3_UneFlotteDeNavires()
+        {
+            Type t = typeof(UneFlotteDeNavires);
+            ConstructorInfo[] constructeursPubliques = t.GetConstructors();
+            bool constructeurParDefautPublic = false;
+            foreach (ConstructorInfo constructeur in constructeursPubliques)
+            {
+                // recherche du constructeur sans paramètre
+                if (constructeur.GetParameters().Length == 0)
+                {
+                    constructeurParDefautPublic = true;
+                }
+            }
+            Assert.IsTrue(constructeurParDefautPublic, "Le constructeur de UneFlotteDeNavires par défaut doit être public.");
+            UneFlotteDeNavires flotte = new UneFlotteDeNavires();
+            Assert.IsTrue(flotte.Navires.Length == 5, "La flotte de navire doit être composée de 5 navires exactement");
+            int navireIndex = 0;
+            foreach (UnNavire navire in flotte.Navires)
+            {
+                Assert.AreEqual(NomsDesNaviresDeLaFlotte[navireIndex], navire.Nom, "Ce navire ne porte pas le bon nom");
+                Assert.AreEqual(TaillesDesNaviresDeLaFlotte[navireIndex],navire.Sections.Length, String.Format("Le navire {0} n'a pas le bon nombre de section", navire.Nom));
+                navireIndex++;
+            }
+        }
     }
 }
