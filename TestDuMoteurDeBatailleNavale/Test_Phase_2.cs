@@ -144,5 +144,72 @@ namespace TestDuMoteurDeBatailleNavale
                 navireIndex++;
             }
         }
+
+        private class joueurTestAvecUneFlotteDeNavires : UnJoueurAvecUneFlotteDeNavires
+        {
+            public joueurTestAvecUneFlotteDeNavires(string pseudo) : base(pseudo)
+            {
+            }
+            public override CoordonnéesDeBatailleNavale
+           Attaquant_ChoisirLesCoordonnéesDeTir()
+            {
+                throw new NotImplementedException();
+            }
+            public override void
+           Attaquant_GérerLeRésultatDuTir(CoordonnéesDeBatailleNavale coordonnéesDuTir,
+           RésultatDeTir résultatDuTir)
+            {
+                throw new NotImplementedException();
+            }
+            public override RésultatDeTir
+           Défenseur_FournirLeRésultatDuTir(CoordonnéesDeBatailleNavale coordonnéesDuTir)
+            {
+                throw new NotImplementedException();
+            }
+        }
+        [TestMethod]
+        public void Phase_2_4_UnJoueurAvecUneFlotteDeNavires()
+        {
+            Type t = typeof(UnJoueurAvecUneFlotteDeNavires);
+            ConstructorInfo constructeurPubliqueAvecUnParametreString = t.GetConstructor(new Type[] { typeof(string) });
+
+            Assert.IsNotNull(constructeurPubliqueAvecUnParametreString,
+           "UnJoueurAvecUneFlotteDeNavires doit posséder un constructeur publique avec un paramètre de type string.");
+           
+            bool pseudoNullOrEmpty = false;
+            try
+            {
+                pseudoNullOrEmpty = false;
+                joueurTestAvecUneFlotteDeNavires joueur = new
+               joueurTestAvecUneFlotteDeNavires(null);
+            }
+            catch (ArgumentNullException)
+            {
+                pseudoNullOrEmpty = true;
+            }
+            Assert.IsTrue(pseudoNullOrEmpty, "Le constructeur de UnJoueurAvecUneFlotteDeNavires ne doit pas accepter un paramètre null");
+        try
+            {
+                pseudoNullOrEmpty = false;
+                joueurTestAvecUneFlotteDeNavires joueur = new
+               joueurTestAvecUneFlotteDeNavires("");
+            }
+            catch (ArgumentNullException)
+            {
+                pseudoNullOrEmpty = true;
+            }
+            Assert.IsTrue(pseudoNullOrEmpty, "Le constructeur de UnJoueurAvecUneFlotteDeNavires ne doit pas accepter un paramètre de chaîne vide");
+        try
+            {
+                pseudoNullOrEmpty = false;
+                joueurTestAvecUneFlotteDeNavires joueur = new
+               joueurTestAvecUneFlotteDeNavires("Pseudo TEST");
+            }
+            catch (Exception)
+            {
+                pseudoNullOrEmpty = true;
+            }
+            Assert.IsFalse(pseudoNullOrEmpty, "Le constructeur de UnJoueurAvecUneFlotteDeNavires doit accepter une chaîne non vide");
+        }
     }
 }
