@@ -21,5 +21,13 @@ namespace MoteurDeBatailleNavale
                 new UnNavire("torpilleur", 2)
             };
         }
+
+        public void RéparerTousLesNavires()
+        {
+            foreach (UnNavire navire in Navires)
+            {
+                navire.Réparer();
+            }
+        }
     }
 }

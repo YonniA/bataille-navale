@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BatailleNavale;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,34 @@ namespace MoteurDeBatailleNavale
             for (int i = 0; i < nombreDeSections; i++)
             {
                 Sections[i] = new UneSectionDeNavire();
+            }
+        }
+
+        public void Réparer()
+        {
+            foreach (UneSectionDeNavire section in Sections)
+            {
+                section.Etat = EtatDeSectionDeNavire.Intact;
+            }
+        }
+
+        public void Positionner(CoordonnéesDeBatailleNavale coordonnées, OrientationNavire orientation)
+        {
+            if (coordonnées.Colonne < 'A' || coordonnées.Colonne > 'J' || coordonnées.Ligne < 1 || coordonnées.Ligne > 10)
+            {
+                throw new ArgumentOutOfRangeException(nameof(coordonnées), "Coordonnées de positionnement non valides.");
+            }
+            Sections[0].Position = coordonnées;
+            for (int i = 1; i < Sections.Length; i++)
+            {
+                if (orientation == OrientationNavire.Horizontal)
+                {
+                    Sections[i].Position = new CoordonnéesDeBatailleNavale((char)(coordonnées.Colonne + i), coordonnées.Ligne);
+                }
+                else
+                {
+                    Sections[i].Position = new CoordonnéesDeBatailleNavale(coordonnées.Colonne, (byte)(coordonnées.Ligne + i));
+                }
             }
         }
     }

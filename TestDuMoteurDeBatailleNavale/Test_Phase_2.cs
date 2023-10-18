@@ -211,5 +211,58 @@ namespace TestDuMoteurDeBatailleNavale
             }
             Assert.IsFalse(pseudoNullOrEmpty, "Le constructeur de UnJoueurAvecUneFlotteDeNavires doit accepter une chaîne non vide");
         }
+
+        [TestMethod]
+        public void Phase_2_6_RéparerLaFlotteDeNavires()
+        {
+            UneFlotteDeNavires flotte = new UneFlotteDeNavires();
+            foreach (UnNavire navire in flotte.Navires)
+            {
+                foreach (var section in navire.Sections)
+                {
+                    section.Etat = EtatDeSectionDeNavire.Touché;
+                }
+            }
+            flotte.RéparerTousLesNavires();
+            bool aucuneSectionTouchée = true;
+            foreach (UnNavire navire in flotte.Navires)
+            {
+                foreach (var section in navire.Sections)
+                {
+                    if (section.Etat == EtatDeSectionDeNavire.Touché)
+                        aucuneSectionTouchée = false;
+                }
+            }
+            Assert.IsTrue(aucuneSectionTouchée, "Après réparation, toutes les sections de tous les navires doivent être intactes!");
+        }
+
+        private void MettreTousLesNaviresAuPort(UneFlotteDeNavires flotte)
+        {
+            byte ligne = 1;
+            foreach (UnNavire navire in flotte.Navires)
+            {
+                navire.Positionner(new CoordonnéesDeBatailleNavale('A', ligne++),
+               OrientationNavire.Horizontal);
+            }
+        }
+        [TestMethod]
+        public void Phase_2_7_MettreTousLesNaviresAuPort()
+        {
+            UneFlotteDeNavires flotte = new UneFlotteDeNavires();
+            MettreTousLesNaviresAuPort(flotte);
+            Assert.IsTrue(flotte.Navires.Length == 5);
+            byte ligne = 1;
+            foreach (UnNavire navire in flotte.Navires)
+            {
+                Assert.IsNotNull(navire, "navire ne peut pas être null");
+                Assert.IsTrue(navire.Orientation == OrientationNavire.Horizontal, "le navire n'est pas horizontal");
+            for (int sectionNum = 0; sectionNum < navire.Sections.Length; sectionNum++)
+                {
+                    Assert.IsTrue(navire.Sections[sectionNum].Position.Colonne == 'A' + sectionNum, "La colonne de cette section n'est pas correcte");
+                    Assert.IsTrue(navire.Sections[sectionNum].Position.Ligne == ligne, "La ligne de cette section n'est pas correcte");
+                }
+                ligne++;
+            }
+        }
     }
 }
