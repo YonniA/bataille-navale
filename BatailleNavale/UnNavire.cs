@@ -43,6 +43,7 @@ namespace MoteurDeBatailleNavale
             {
                 section.Etat = EtatDeSectionDeNavire.Intact;
             }
+            Etat= EtatDeNavire.Intact;
         }
 
         public void Positionner(CoordonnéesDeBatailleNavale coordonnées, OrientationNavire orientation)
@@ -64,5 +65,36 @@ namespace MoteurDeBatailleNavale
                 }
             }
         }
+
+        public RésultatDeTir VérifierLeRésultatDuTir(CoordonnéesDeBatailleNavale caseCible)
+        {
+            foreach (UneSectionDeNavire section in Sections)
+            {
+                if (section.Position.Equals(caseCible))
+                {
+                    section.Etat = EtatDeSectionDeNavire.Touché;
+                    bool toutesLesSectionsTouchées = true;
+                    foreach (UneSectionDeNavire s in Sections)
+                    {
+                        if (s.Etat != EtatDeSectionDeNavire.Touché)
+                        {
+                            toutesLesSectionsTouchées = false;
+                            break;
+                        }
+                    }
+                    if (toutesLesSectionsTouchées)
+                    {
+                        Etat = EtatDeNavire.Coulé;
+                        return RésultatDeTir.TouchéCoulé;
+                    }
+                    else
+                    {
+                        return RésultatDeTir.Touché;
+                    }
+                }
+            }
+            return RésultatDeTir.Raté;
+        }
+
     }
 }

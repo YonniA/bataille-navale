@@ -264,5 +264,59 @@ namespace TestDuMoteurDeBatailleNavale
                 ligne++;
             }
         }
+
+        [TestMethod]
+        public void Phase_2_8_VérifierLeRésultatDuTir()
+        {
+            UneFlotteDeNavires flotte = new UneFlotteDeNavires();
+            MettreTousLesNaviresAuPort(flotte);
+            byte ligne = 1;
+            foreach (UnNavire navire in flotte.Navires)
+            {
+                int sectionNum = 0;
+                for (; sectionNum < navire.Sections.Length - 1; sectionNum++)
+                {
+                    RésultatDeTir resultatTirTouché =
+                   navire.VérifierLeRésultatDuTir(new CoordonnéesDeBatailleNavale((char)('A' +
+                   sectionNum), ligne));
+                    Assert.AreEqual(resultatTirTouché, RésultatDeTir.Touché, "Le navire situé ici devrait être touché");
+                }
+                RésultatDeTir resultatTirTouchéCoulé =
+               navire.VérifierLeRésultatDuTir(new CoordonnéesDeBatailleNavale((char)('A' +
+               sectionNum), ligne));
+                Assert.AreEqual(resultatTirTouchéCoulé, RésultatDeTir.TouchéCoulé, "Le navire situé ici devrait être touché et coulé!");
+                ligne++;
+            }
+            flotte.RéparerTousLesNavires();
+            ligne = 1;
+            foreach (UnNavire navire in flotte.Navires)
+            {
+                int sectionNum = 0;
+                for (; sectionNum < navire.Sections.Length - 1; sectionNum++)
+                {
+                    RésultatDeTir resultatTirTouché =
+                   flotte.VérifierLeRésultatDuTir(new CoordonnéesDeBatailleNavale((char)('A' +
+                   sectionNum), ligne));
+                    Assert.AreEqual(resultatTirTouché, RésultatDeTir.Touché, "Le navire situé ici devrait être touché");
+                }
+                if (ligne < 5) // dernière section , mais pas dernier navire
+                {
+                    RésultatDeTir resultatTirTouchéCoulé =
+                   flotte.VérifierLeRésultatDuTir(new CoordonnéesDeBatailleNavale((char)('A' +
+                   sectionNum), ligne));
+                    Assert.AreEqual(resultatTirTouchéCoulé, RésultatDeTir.TouchéCoulé, "Le navire situé ici devrait être touché et coulé !");
+                }
+                else // dernière section , du dernier navire
+                {
+                    RésultatDeTir resultatTirTouchéCouléFinal =
+                   flotte.VérifierLeRésultatDuTir(new CoordonnéesDeBatailleNavale((char)('A' +
+                   sectionNum), ligne));
+                    Assert.AreEqual(resultatTirTouchéCouléFinal,
+                   RésultatDeTir.TouchéCouléFinal, "Le navire situé ici devrait être le dernier navire touché et coulé!");
+                }
+                ligne++;
+            }
+        }
+
     }
 }

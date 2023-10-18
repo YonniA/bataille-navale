@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BatailleNavale;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,5 +30,35 @@ namespace MoteurDeBatailleNavale
                 navire.Réparer();
             }
         }
+
+        public RésultatDeTir VérifierLeRésultatDuTir(CoordonnéesDeBatailleNavale caseCible)
+        {
+            foreach (UnNavire navire in Navires)
+            {
+                RésultatDeTir résultat = navire.VérifierLeRésultatDuTir(caseCible);
+                if (résultat == RésultatDeTir.TouchéCoulé)
+                {
+                    bool tousLesAutresNaviresCoulés = true;
+                    foreach (UnNavire autreNavire in Navires)
+                    {
+                        if (autreNavire != navire && autreNavire.Etat != EtatDeNavire.Coulé)
+                        {
+                            tousLesAutresNaviresCoulés = false;
+                            break;
+                        }
+                    }
+                    if (tousLesAutresNaviresCoulés)
+                    {
+                        return RésultatDeTir.TouchéCouléFinal;
+                    }
+                }
+                if (résultat != RésultatDeTir.Raté)
+                {
+                    return résultat;
+                }
+            }
+            return RésultatDeTir.Raté;
+        }
+
     }
 }
