@@ -1,7 +1,6 @@
-﻿using MoteurDeBatailleNavale;
+﻿    using MoteurDeBatailleNavale;
 
-static void Main(string[] args)
-{
+
     Console.WriteLine("Bataille navale");
     Console.WriteLine("Bonjour joueur 1 ");
     UnJoueurHumainDerrièreLaConsole joueur1 = new
@@ -29,4 +28,3 @@ static void Main(string[] args)
             nouvellePartie = false;
     }
     while (nouvellePartie);
-}
