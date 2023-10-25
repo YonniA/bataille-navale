@@ -3,11 +3,11 @@
 
     Console.WriteLine("Bataille navale");
     Console.WriteLine("Bonjour joueur 1 ");
-    UnJoueurHumainDerrièreLaConsole joueur1 = new
-   UnJoueurHumainDerrièreLaConsole();
+    UnJoueurRobotPasTrèsIntelligent joueur1 = new
+    UnJoueurRobotPasTrèsIntelligent("ordi1");
     Console.WriteLine("Bonjour joueur 2 ");
-    UnJoueurHumainDerrièreLaConsole joueur2 = new
-   UnJoueurHumainDerrièreLaConsole();
+    UnJoueurRobotPasTrèsIntelligent joueur2 = new
+    UnJoueurRobotPasTrèsIntelligent("ordi2");
     PartieDeBatailleNavale partie = new PartieDeBatailleNavale(joueur1,
    joueur2);
     bool nouvellePartie;
